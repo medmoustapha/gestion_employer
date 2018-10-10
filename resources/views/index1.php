@@ -23,12 +23,12 @@
         
 
     </head>
-    <body   ng-controller="employeesController" id="employeesController">
+    <body   ng-controller="employeesController">
     <div class="container" >
-  <button   routerLink="about" class="btn btn-primary">Menu 1</button>
-  <button routerLink="contacts" class="btn btn-primary">Menu 2</button>
-  <button routerLink="gallery" class="btn btn-primary">Menu 1</button>
-   <router-outlet></router-outlet>
+        <button   routerLink="about" class="btn btn-primary">Menu 1</button>
+        <button routerLink="contacts" class="btn btn-primary">Menu 2</button>
+        <button routerLink="gallery" class="btn btn-primary">Menu 1</button>
+        <router-outlet></router-outlet>
 
 
         <div>

@@ -9,7 +9,7 @@ class Employees extends Controller
 {
     public function index($id=null) {
         if ($id == null) {
-            return Employee::orderBy('id', 'desc')->get();
+            return Employee::orderBy('id', 'desc')->paginate(10);
         } else {
             return $this->show($id);
         }

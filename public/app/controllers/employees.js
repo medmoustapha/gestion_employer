@@ -1,22 +1,40 @@
 
+
 app.controller('employeesController', function($scope, $http, API_URL) {
     $scope.posts = [];
     $scope.totalPages = 0;
     $scope.currentPage = 1;
     $scope.range = [];
    
-    
-    
-    $http.get(API_URL + "employees")
+    $scope.getPosts = function(pageNumber){
+
+        if(pageNumber===undefined){
+          pageNumber = '1';
+        }
+   
+  
+    $http.get(API_URL + "employees?page="+pageNumber)
             .then(function(response) {
-                $scope.employees = response['data'];
-                console.log(response);
+                $scope.employees = response;
+                $scope.totalPages   = response.data.total;
+                $scope.currentPage  = response.data.current_page;
+              
+              
+                console.log( $scope.employees);
+                console.log($scope.currentPage);console.log( $scope.totalPages);
+                var pages = [];
+
+                for(var i=1;i<=response.data.last_page;i++) {          
+                    pages.push(i);
+                    }
+
+      $scope.range = pages; 
+      console.log($scope.range);
+              
                });
-                        
-                       
-            
-            
-           
+          
+            } 
+            $scope.getPosts();
     //show modal form
     $scope.toggle = function(modalstate, id) {
         $scope.modalstate = modalstate;
@@ -89,4 +107,21 @@ app.controller('employeesController', function($scope, $http, API_URL) {
     }
 });
 
+
+
+
+app.directive('postsPagination', function(){  
+   return{
+      restrict: 'E',
+      template: '<ul class="pagination">'+
+        '<li ng-show="currentPage != 1"><a href="javascript:void(0)" ng-click="getPosts(1)">«</a></li>'+
+        '<li ng-show="currentPage != 1"><a href="javascript:void(0)" ng-click="getPosts(currentPage-1)">‹ Prev</a></li>'+
+        '<li ng-repeat="i in range" ng-class="{active : currentPage == i}">'+
+            '<a href="javascript:void(0)" ng-click="getPosts(i)">{{i}}</a>'+
+        '</li>'+
+        '<li ng-hide="currentPage == employees.data.last_page"><a href="javascript:void(0)" ng-click="getPosts(currentPage+1)">Next ›</a></li>'+
+        '<li ng-hide="currentPage ==employees.data.last_page"><a href="javascript:void(0)" ng-click="getPosts(pages)">»</a></li>'+
+      '</ul>'
+   };
+});
 
